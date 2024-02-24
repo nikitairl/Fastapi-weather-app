@@ -1,12 +1,15 @@
 from celery import Celery
 from celery.schedules import crontab
 
-from . import crud, main, weather_api
+from . import crud, main, weather_api, config
+
+
+settings = config.get_settings()
+
+
+REDIS_URL = settings.redis_url
 
 celery_app = Celery(__name__)
-settings = {
-    'broker_url': 'redis://localhost:6379',
-}
 
 
 # docker run -it -p 6379:6379 redis bash
@@ -14,25 +17,16 @@ settings = {
 # --beat -s celerybeat-schedule --loglevel INFO
 
 
-celery_app.conf.broker_url = settings['broker_url']
-celery_app.conf.result_backend = settings['broker_url']
+celery_app.conf.broker_url = REDIS_URL
+celery_app.conf.result_backend = REDIS_URL
 
 
 @celery_app.on_after_configure.connect
 def setup_periodic_tasks(sender, **kwargs):
     sender.add_periodic_task(
-        crontab(minute="*/1"),
+        crontab(minute="*/10"),
         get_weather_apis.s(),
     )
-
-
-# @celery_app.task
-# def print_all_cities():
-#     database = next(main.get_db())
-#     cities = crud.get_cities(database)
-
-#     for city in cities:
-#         print(list(city.__dict__.values()))
 
 
 @celery_app.task

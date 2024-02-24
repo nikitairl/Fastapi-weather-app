@@ -1,11 +1,14 @@
 import requests
 from sqlalchemy.orm import Session
 
-from . import models
+from . import models, config
+
+
+settings = config.get_settings()
 
 
 def fetch_weather_data(lat, lon):
-    API_key = "729b98baef5347afc700bc1ba8077b5d"
+    API_key = settings.api_key
     url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={API_key}"
     request_data = requests.get(url)
     return request_data.json()

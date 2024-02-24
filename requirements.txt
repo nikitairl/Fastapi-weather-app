@@ -4,3 +4,4 @@ celery
 redis
 sqlalchemy
 requests
+pydantic_settings
