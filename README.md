@@ -15,14 +15,14 @@ This is a FastAPI application that periodically requests temperature and weather
 
 1. Clone the repository:
 
-    ```bash
+    ```
     https://github.com/nikitairl/Fastapi-weather-app.git
     cd Fastapi-weather-app
     ```
 
 2. Install dependencies:
 
-    ```bash
+    ```
     pip install -r requirements.txt
     ```
 
@@ -39,13 +39,13 @@ This is a FastAPI application that periodically requests temperature and weather
 
 1. Start Celery worker and beat:
 
-    ```bash
+    ```
     celery --app app.worker.celery_app worker --beat -s celerybeat-schedule --loglevel INFO
     ```
 Also dont forget to start redis.
 2. Start the FastAPI application:
 
-    ```bash
+    ```
     uvicorn app.main:app --reload
     ```
 
