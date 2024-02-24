@@ -7,7 +7,7 @@ This is a FastAPI application that periodically requests temperature and weather
 - Python 3.x
 - FastAPI
 - Uvicorn
-- Celery
+- Celery (using Redis)
 - SQLAlchemy
 - Requests
 
@@ -42,7 +42,7 @@ This is a FastAPI application that periodically requests temperature and weather
     ```bash
     celery --app app.worker.celery_app worker --beat -s celerybeat-schedule --loglevel INFO
     ```
-
+Also dont forget to start redis.
 2. Start the FastAPI application:
 
     ```bash
