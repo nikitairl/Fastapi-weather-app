@@ -1,7 +1,9 @@
 from fastapi import Depends, FastAPI
 from sqlalchemy.orm import Session
+
 from . import crud, models, schemas
 from .db import SessionLocal, engine
+from .worker import get_weather_apis
 
 models.Base.metadata.create_all(bind=engine)
 
@@ -28,6 +30,9 @@ def get_cities(db: Session = Depends(get_db)):
 
 
 @app.post('/cities', response_model=schemas.AddCitySchema)
-def add_city(db: Session = Depends(get_db), city: schemas.AddCitySchema = Depends()):
+def add_city(
+    db: Session = Depends(get_db),
+    city: schemas.AddCitySchema = Depends()
+):
     db_city = crud.add_city(db, city)
     return db_city

@@ -12,3 +12,4 @@ class CitySchemaView(BaseModel):
     lat: float
     lon: float
     tmp: str
+    data: str

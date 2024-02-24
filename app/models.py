@@ -10,3 +10,4 @@ class City(Base):
     lat = Column(Float)
     lon = Column(Float)
     tmp = Column(String, nullable=True)
+    data = Column(String, nullable=True)
