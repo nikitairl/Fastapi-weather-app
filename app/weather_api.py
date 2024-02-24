@@ -1,18 +1,31 @@
-from dataclasses import dataclass
-
 import requests
 from sqlalchemy.orm import Session
 
-from . import main
+from . import models
 
-URL = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}"
 
-lat = 0
-lon = 0
-API_key = "729b98baef5347afc700bc1ba8077b5d"
+def fetch_weather_data(lat, lon):
+    API_key = "729b98baef5347afc700bc1ba8077b5d"
+    url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&units=metric&appid={API_key}"
+    request_data = requests.get(url)
+    return request_data.json()
 
-url = f"https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API_key}"
-request_data = requests.get(url)
 
-data = request_data.json()
-print(data)
+def update_city_with_weather(
+    database: Session,
+    city: models.City,
+    weather_data: dict
+):
+    # Update the city model with weather data
+    city.data = str(weather_data)
+    city.tmp = tmp_sky(weather_data)
+    # Update other fields as needed
+    database.add(city)
+    database.commit()
+    return city
+
+
+def tmp_sky(data):
+    tmp = str(round(int(data["main"]["temp"])))
+    sky = data["weather"][0]["main"]
+    return f"{tmp}°C - {sky}"

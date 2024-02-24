@@ -1,3 +1,4 @@
+from typing import Optional
 from pydantic import BaseModel
 
 
@@ -11,5 +12,5 @@ class CitySchemaView(BaseModel):
     name: str
     lat: float
     lon: float
-    tmp: str
-    data: str
+    tmp: Optional[str] = None
+    data: Optional[str] = None

@@ -3,7 +3,6 @@ from sqlalchemy.orm import Session
 
 from . import crud, models, schemas
 from .db import SessionLocal, engine
-from .worker import get_weather_apis
 
 models.Base.metadata.create_all(bind=engine)
 
