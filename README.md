@@ -10,7 +10,6 @@ This is a FastAPI application that periodically requests temperature and weather
 - Celery
 - SQLAlchemy
 - Requests
-Docker container soon...
 
 ## Installation
 
